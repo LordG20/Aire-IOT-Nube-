@@ -18,12 +18,12 @@ qualityair.use(express.json())
 
 qualityair.post("/send_datos", (request, response) => {
     console.log(request.body);
-    //const data = request.body.data;
-    //qualityair.use(bodyparser.json());
-    //const data = json_parse(request.body)
+    var today = new Date();
+    // obtener la fecha y la hora
+    var now = today.toLocaleString();
     const { data } = request.body;
     const conection = mysql.createConnection(db_init)
-    conection.query("INSERT INTO sensor (data) VALUES (?)", [data], (err, res) => {
+    conection.query("INSERT INTO sensor (data,fechaActual) VALUES (?,?)", [data, now], (err, res) => {
         if (err) {
             response.status(500).send(err);
         } else {
